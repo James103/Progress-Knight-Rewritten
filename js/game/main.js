@@ -373,7 +373,7 @@ function reset(resetSettings = false) {
     location.reload()
 }
 
-function update() {
+function updateGame() {
     isAlive()
     applyMultipliers()
     increaseDays()
@@ -395,12 +395,16 @@ function update() {
     data.stats.highestCoins = Math.max(data.coins, data.stats.highestCoins)
     for (const key in data.job) { const task = data.job[key]; task.highestLevel = Math.max(task.level, task.highestLevel) }
     for (const key in data.skill) { const task = data.skill[key]; task.highestLevel = Math.max(task.level, task.highestLevel) }
+}
+
+function update() {
+    updateGame()
     updateUI()
     amuletText()
     if (document.getElementById("beggarProgressBar").classList.contains("helpTutorial") && data.job["Beggar"].highestLevel !== 0) document.getElementById("beggarProgressBar").classList.remove("helpTutorial")
 }
 
-function updateWithTime() {
+function updateWithTime(needUpdateUI = true) {
     var thisUpdate = new Date().getTime();
     data.updateTimeDiff = Math.round(thisUpdate - data.lastUpdate);
     if (data.updateTimeDiff > 1000) {
@@ -409,7 +413,10 @@ function updateWithTime() {
     }
     data.stats.realtime += data.updateTimeDiff / 1000
     data.currentRealtime += data.updateTimeDiff / 1000 * +!data.paused
-    update();
+    if (needUpdateUI)
+        update();
+    else
+        updateGame();
     data.lastUpdate = thisUpdate;
 }
 
