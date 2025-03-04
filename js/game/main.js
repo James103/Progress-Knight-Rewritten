@@ -404,9 +404,9 @@ function update() {
     if (document.getElementById("beggarProgressBar").classList.contains("helpTutorial") && data.job["Beggar"].highestLevel !== 0) document.getElementById("beggarProgressBar").classList.remove("helpTutorial")
 }
 
-function updateWithTime(needUpdateUI = true) {
+function updateWithTime(needUpdateUI = true, fixedDiff = 0) {
     var thisUpdate = new Date().getTime();
-    data.updateTimeDiff = Math.round(thisUpdate - data.lastUpdate);
+    data.updateTimeDiff = fixedDiff > 0 ? fixedDiff : Math.round(thisUpdate - data.lastUpdate);
     if (data.updateTimeDiff > 1000) {
         data.storedOfflineTime += data.updateTimeDiff
         data.updateTimeDiff = 0
